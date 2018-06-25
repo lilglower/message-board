@@ -27,8 +27,11 @@
 												{{input class="form-control" type="text" placeholder="Post Title" value=change.title}}
 												<br />
 												{{textarea class="form-control" value=change.content placeholder="Post Content"}}
+												(optional) File Upload
+												{{input class="form-control" type="file" id=post.id}}
 												<button class="btn btn-success">Submit</button>
 												<button type="button" {{action modify post}} class="btn btn-danger">Discard</button>
+
 											</div>
 										</form>
 									{{else}}
@@ -37,6 +40,11 @@
 										<small>By <strong>{{post.key}}</strong> created {{moment post.created_at}}</small><br 	/>
 										<small class="text-danger" {{action deletePost post}}>Delete</small>
 										<small class="text-info" {{action modify post}}>Modify</small>
+										{{#if (eq post.attachment "")}}
+											<small class="text-muted">No Attachment</small>
+											{{else}}
+											<small class="text-info" {{action download post}}>Download Attachment</small>
+										{{/if}}
 									{{/if}}
 								</td>
 							</tr>
@@ -53,6 +61,8 @@
 				<br />
 				{{textarea class="form-control" value=form.content placeholder="Post Content"}}
 				<br />
+				(optional) File Upload
+				{{input class="form-control" type="file" id="uploadFile"}}
 				<button class="btn btn-success">Submit</button>
 			</form>
 		</div>
