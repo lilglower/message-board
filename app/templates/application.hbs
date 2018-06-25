@@ -1,5 +1,60 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-{{welcome-page}}
-{{!-- Feel free to remove this! --}}
-
-{{outlet}}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<br />
+			<h3>Message Board</h3>
+			{{#if loading}}
+				<small>Loading...</small>
+			{{/if}}
+			{{#if error}}
+				<small class="text-danger">{{error}}</small>
+			{{/if}}
+			{{#if posts.length}}
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Post</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each posts as |post|}}
+							<tr>
+								<td>
+									{{#if post.edit}}
+										<form onsubmit={{action modifyPost}}>
+											<div class="form-group">
+												<h5>Modify Post</h5>
+												{{input class="form-control" type="text" placeholder="Post Title" value=change.title}}
+												<br />
+												{{textarea class="form-control" value=change.content placeholder="Post Content"}}
+												<button class="btn btn-success">Submit</button>
+												<button type="button" {{action modify post}} class="btn btn-danger">Discard</button>
+											</div>
+										</form>
+									{{else}}
+										<h3>{{post.title}}</h3>
+										<div>{{post.content}}</div>
+										<small>By <strong>{{post.key}}</strong> created {{moment post.created_at}}</small><br 	/>
+										<small class="text-danger" {{action deletePost post}}>Delete</small>
+										<small class="text-info" {{action modify post}}>Modify</small>
+									{{/if}}
+								</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			{{else}}
+				<strong>There are no posts to display.</strong>
+			{{/if}}
+			<hr />
+			<form class="form-group" onsubmit={{action handleSubmit}}>
+				<h4>Add Message</h4>
+				{{input class="form-control" type="text" placeholder="Post Title" value=form.title}}
+				<br />
+				{{textarea class="form-control" value=form.content placeholder="Post Content"}}
+				<br />
+				<button class="btn btn-success">Submit</button>
+			</form>
+		</div>
+	</div>
+</div>
